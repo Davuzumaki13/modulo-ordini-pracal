@@ -27,7 +27,6 @@
             padding: 20px;
         }
 
-        /* Header con branding */
         .header {
             text-align: center;
             margin-bottom: 60px;
@@ -68,7 +67,6 @@
             font-weight: 300;
         }
 
-        /* Main Card */
         .main-card {
             background: white;
             border-radius: 20px;
@@ -87,7 +85,6 @@
             text-align: center;
         }
 
-        /* Version Badge */
         .version-badge {
             display: inline-flex;
             align-items: center;
@@ -114,7 +111,6 @@
             font-size: 16px;
         }
 
-        /* OS Selection */
         .os-description {
             font-size: 14px;
             color: #666;
@@ -124,12 +120,14 @@
         }
 
         .download-options {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+            display: flex;
             gap: 20px;
             margin-bottom: 40px;
+            align-items: center;
+            justify-content: center;
         }
 
+        /* Stile predefinito: entrambi uguali */
         .download-option {
             display: flex;
             flex-direction: column;
@@ -139,11 +137,29 @@
             border-radius: 14px;
             text-decoration: none;
             color: inherit;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
             cursor: pointer;
             background: white;
             position: relative;
             overflow: hidden;
+            flex: 1;
+            max-width: 300px;
+        }
+
+        /* Quando è evidenziato (OS corrente) */
+        .download-option.highlighted {
+            flex: 2;
+            padding: 40px;
+            border-color: #0078d4;
+            box-shadow: 0 12px 40px rgba(0, 120, 212, 0.2);
+            transform: scale(1.05);
+        }
+
+        /* Quando è secondario (altro OS) */
+        .download-option.secondary {
+            flex: 1;
+            padding: 20px;
+            opacity: 0.7;
         }
 
         .download-option::before {
@@ -167,6 +183,10 @@
             transform: translateY(-5px);
         }
 
+        .download-option.highlighted:hover {
+            transform: scale(1.08) translateY(-5px);
+        }
+
         .download-option.windows:hover {
             background: linear-gradient(135deg, #f0f7ff 0%, #e3f2fd 100%);
         }
@@ -178,6 +198,15 @@
         .os-icon {
             font-size: 40px;
             margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .download-option.highlighted .os-icon {
+            font-size: 60px;
+        }
+
+        .download-option.secondary .os-icon {
+            font-size: 32px;
         }
 
         .os-name {
@@ -185,19 +214,56 @@
             font-weight: 600;
             color: #1a1a1a;
             margin-bottom: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .download-option.highlighted .os-name {
+            font-size: 20px;
+        }
+
+        .download-option.secondary .os-name {
+            font-size: 14px;
         }
 
         .os-info {
             font-size: 12px;
             color: #999;
             text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .download-option.highlighted .os-info {
+            font-size: 13px;
+        }
+
+        .download-option.secondary .os-info {
+            font-size: 11px;
+        }
+
+        .recommended-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: linear-gradient(135deg, #0078d4 0%, #00a4ef 100%);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.3s ease;
+        }
+
+        .download-option.highlighted .recommended-badge {
+            opacity: 1;
+            transform: scale(1);
         }
 
         .download-option:active {
             transform: translateY(-2px);
         }
 
-        /* Divider */
         .divider {
             display: flex;
             align-items: center;
@@ -221,7 +287,6 @@
             letter-spacing: 1px;
         }
 
-        /* Direct Download Link */
         .direct-link {
             text-align: center;
             padding: 20px;
@@ -251,7 +316,6 @@
             background: rgba(0, 120, 212, 0.1);
         }
 
-        /* Footer Info */
         .footer-info {
             margin-top: 40px;
             text-align: center;
@@ -275,7 +339,6 @@
             font-size: 18px;
         }
 
-        /* Animations */
         @keyframes fadeInDown {
             from {
                 opacity: 0;
@@ -298,7 +361,6 @@
             }
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
             .main-card {
                 padding: 40px 25px;
@@ -309,11 +371,20 @@
             }
 
             .download-options {
-                grid-template-columns: 1fr;
+                flex-direction: column;
             }
 
             .download-option {
-                padding: 25px;
+                max-width: 100%;
+                width: 100%;
+            }
+
+            .download-option.highlighted {
+                padding: 35px;
+            }
+
+            .download-option.secondary {
+                padding: 20px;
             }
 
             .footer-info {
@@ -358,7 +429,7 @@
                 <div class="logo-icon">📦</div>
                 <h1>Modulo Ordini Pracal</h1>
             </div>
-            <p>Gestione Ordini</p>
+            <p>Software Gestione Ordini</p>
         </div>
 
         <div class="main-card">
@@ -373,16 +444,18 @@
 
             <div class="download-options">
                 <a href="https://github.com/Davuzumaki13/modulo-ordini-pracal/releases/latest/download/modulo_ordini_pracal.exe" 
-                   class="download-option windows"
+                   class="download-option windows" id="windowsOption"
                    title="Scarica per Windows 10/11">
+                    <span class="recommended-badge">Consigliato</span>
                     <div class="os-icon">🪟</div>
                     <div class="os-name">Windows</div>
                     <div class="os-info">Windows 10/11 (64-bit)</div>
                 </a>
 
                 <a href="https://github.com/Davuzumaki13/modulo-ordini-pracal/releases/latest/download/modulo_ordini_pracal.app.zip" 
-                   class="download-option macos"
+                   class="download-option macos" id="macosOption"
                    title="Scarica per macOS">
+                    <span class="recommended-badge">Consigliato</span>
                     <div class="os-icon">🍎</div>
                     <div class="os-name">macOS</div>
                     <div class="os-info">macOS 10.13+</div>
@@ -391,8 +464,41 @@
 
 
 
+
+
+
+            <div class="footer-info">
+                <div class="info-item">
+                    <div class="info-icon">✓</div>
+                    <span>Completamente Gratuito</span>
+                </div>
+                <div class="info-item">
+                    <div class="info-icon">🔒</div>
+                    <span>Open Source & Sicuro</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
+        // Rileva il sistema operativo e regola i pulsanti
         window.addEventListener('DOMContentLoaded', function() {
+            var userAgent = navigator.userAgent.toLowerCase();
+            var windowsOption = document.getElementById('windowsOption');
+            var macosOption = document.getElementById('macosOption');
+            
+            // Determina il sistema operativo
+            if (userAgent.includes('windows')) {
+                // Evidenzia Windows
+                windowsOption.classList.add('highlighted');
+                macosOption.classList.add('secondary');
+            } else if (userAgent.includes('macintosh') || userAgent.includes('mac os')) {
+                // Evidenzia macOS
+                macosOption.classList.add('highlighted');
+                windowsOption.classList.add('secondary');
+            }
+            
+            // Carica la versione da GitHub
             var badge = document.getElementById('versionBadge');
             var text = document.getElementById('versionText');
             var url = 'https://api.github.com/repos/Davuzumaki13/modulo-ordini-pracal/releases/latest';
